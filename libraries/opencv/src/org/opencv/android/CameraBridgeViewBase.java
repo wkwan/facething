@@ -1,13 +1,5 @@
 package org.opencv.android;
 
-import java.util.List;
-
-import org.opencv.R;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +12,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import org.opencv.R;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.highgui.Highgui;
+
+import java.util.List;
 
 /**
  * This is a basic class, implementing the interaction with Camera and OpenCV library.
@@ -383,6 +382,8 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
     protected void deliverAndDrawFrame(CvCameraViewFrame frame) {
         Mat modified;
 
+
+
         if (mListener != null) {
             modified = mListener.onCameraFrame(frame);
         } else {
@@ -420,6 +421,33 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
                          (canvas.getWidth() - mCacheBitmap.getWidth()) / 2 + mCacheBitmap.getWidth(),
                          (canvas.getHeight() - mCacheBitmap.getHeight()) / 2 + mCacheBitmap.getHeight()), null);
                 }
+
+
+//                canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+//                //canvas.drawBitmap(mCacheBitmap, (canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2, null);
+//                //Change to support portrait view
+//                Matrix matrix = new Matrix();
+//                matrix.preTranslate((canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2);
+//
+//                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+//                    matrix.postRotate(90f, (canvas.getWidth()) / 2,(canvas.getHeight()) / 2);
+//                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
+                canvas.rotate(90,0,0);
+//                float scale = canvas.getWidth() / (float)mCacheBitmap.getHeight();
+//                float scale2 = canvas.getHeight() / (float)mCacheBitmap.getWidth();
+//                if(scale2 > scale){
+//                    scale = scale2;
+//                }
+//                if (scale != 0) {
+//                    Log.i("qq", String.format("%f %d %d %d %d", scale, canvas.getWidth(), canvas.getHeight(), mCacheBitmap.getHeight(), mCacheBitmap.getHeight()));
+//                    canvas.scale(scale, scale,0,0);
+//                }
+
+                canvas.scale((float)canvas.getHeight()/(float)mCacheBitmap.getWidth(), (float)canvas.getWidth()/(float)mCacheBitmap.getHeight(), 0, 0);
+                canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
+
+
+
 
                 if (mFpsMeter != null) {
                     mFpsMeter.measure();
