@@ -46,9 +46,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
-    private RelativeLayout info;
-    private TextView name;
-
     private static final String TAG = "OCVSample::Activity";
     private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
     public static final int JAVA_DETECTOR = 0;
@@ -198,10 +195,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         setContentView(R.layout.activity_main);
 
-        info = (RelativeLayout)findViewById(R.id.info);
-        info.setVisibility(View.INVISIBLE);
-
-
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -226,11 +219,9 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 } else {
                     if (mLikely < 30)
                     {
-                        name.setText("Name: Unknown");
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-                        name.setText("Name: " + msg.obj.toString());
 
                     }
 //                    textresult.setText(msg.obj.toString());
@@ -497,7 +488,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        info.setVisibility(View.VISIBLE);
 
 //stuff that updates ui
 
@@ -527,7 +517,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        info.setVisibility(View.INVISIBLE);
 
 //stuff that updates ui
 
