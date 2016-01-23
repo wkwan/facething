@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -426,15 +423,26 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
                 }
 
 
-                canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
-                //canvas.drawBitmap(mCacheBitmap, (canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2, null);
-                //Change to support portrait view
-                Matrix matrix = new Matrix();
-                matrix.preTranslate((canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2);
+//                canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+//                //canvas.drawBitmap(mCacheBitmap, (canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2, null);
+//                //Change to support portrait view
+//                Matrix matrix = new Matrix();
+//                matrix.preTranslate((canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2);
+//
+//                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+//                    matrix.postRotate(90f, (canvas.getWidth()) / 2,(canvas.getHeight()) / 2);
+//                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
+                canvas.rotate(90,0,0);
+                float scale = canvas.getWidth() / (float)mCacheBitmap.getHeight();
+                float scale2 = canvas.getHeight() / (float)mCacheBitmap.getWidth();
+                if(scale2 > scale){
+                    scale = scale2;
+                }
+                if (scale != 0) {
+                    canvas.scale(scale, scale,0,0);
+                }
+                canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
 
-                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-                    matrix.postRotate(90f, (canvas.getWidth()) / 2,(canvas.getHeight()) / 2);
-                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
 
 
 
