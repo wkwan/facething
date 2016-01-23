@@ -198,6 +198,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
         setContentView(R.layout.activity_main);
 
         info = (RelativeLayout)findViewById(R.id.info);
+        info.setVisibility(View.INVISIBLE);
+
         name = (TextView)findViewById(R.id.name);
 
 
@@ -228,7 +230,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
                     {
                         name.setText("Name: Unknown");
                     }
-                    else
+                    else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
                         name.setText("Name: " + msg.obj.toString());
 
@@ -490,26 +492,51 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
                 countImages++;
             }
 
-        } else if ((facesArray.length > 0) && (faceState == SEARCHING)) {
-            Mat m = new Mat();
+        } else if ((faceState == SEARCHING)) {
+            if (facesArray.length > 0)
+            {
 
-//            Bitmap zuckBmp = BitmapFactory.decodeResource(getResources(), R.drawable.zuck);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setVisibility(View.VISIBLE);
 
-            m = mGray.submat(facesArray[0]);
-            mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
+//stuff that updates ui
+
+                    }
+                });
+
+                Mat m = new Mat();
+
+                m = mGray.submat(facesArray[0]);
+                mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
 
 
-            Utils.matToBitmap(m, mBitmap);
-            Message msg = new Message();
-            String textTochange = "IMG";
-            msg.obj = textTochange;
-            mHandler.sendMessage(msg);
+                Utils.matToBitmap(m, mBitmap);
+                Message msg = new Message();
+                String textTochange = "IMG";
+                msg.obj = textTochange;
+                mHandler.sendMessage(msg);
 
-            textTochange = fr.predict(m);
-            mLikely = fr.getConfidenceLevel();
-            msg = new Message();
-            msg.obj = textTochange;
-            mHandler.sendMessage(msg);
+                textTochange = fr.predict(m);
+                mLikely = fr.getConfidenceLevel();
+                msg = new Message();
+                msg.obj = textTochange;
+                mHandler.sendMessage(msg);
+            }
+            else
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        info.setVisibility(View.INVISIBLE);
+
+//stuff that updates ui
+
+                    }
+                });
+            }
+
 
         }
         for (int i = 0; i < facesArray.length; i++)
