@@ -116,7 +116,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
     int[] labels = new int[(int) MAXIMG];
     int countImages = 0;
 
-    Labels labelsFile;
+    ProfileManager profileManager;
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -207,7 +207,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 
         mPath = getFilesDir() + "/facerecogOCV/";
 
-        labelsFile = new Labels(mPath);
+        profileManager = new ProfileManager(mPath);
 
         Iv = (ImageView) findViewById(R.id.imageView1);
         textresult = (TextView) findViewById(R.id.textView1);
