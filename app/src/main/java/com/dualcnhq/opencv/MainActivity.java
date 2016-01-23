@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 //import java.io.FileNotFoundException;
 
 
-public class MainActivity extends Activity implements CvCameraViewListener2 {
+public class MainActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
     private RelativeLayout info;
     private TextView name;
@@ -200,12 +201,9 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
         info = (RelativeLayout)findViewById(R.id.info);
         info.setVisibility(View.INVISIBLE);
 
-        name = (TextView)findViewById(R.id.name);
-
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
-
 
         mPath = getFilesDir() + "/facerecogOCV/";
 
