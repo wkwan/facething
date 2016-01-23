@@ -115,7 +115,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     int[] labels = new int[(int) MAXIMG];
     int countImages = 0;
 
-    labels labelsFile;
+    Labels labelsFile;
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -202,7 +202,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
         mPath = getFilesDir() + "/facerecogOCV/";
 
-        labelsFile = new labels(mPath);
+        labelsFile = new Labels(mPath);
 
         Iv = (ImageView) findViewById(R.id.imageView1);
         textresult = (TextView) findViewById(R.id.textView1);
@@ -479,7 +479,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
             mHandler.sendMessage(msg);
 
             textTochange = fr.predict(m);
-            mLikely = fr.getProb();
+            mLikely = fr.getConfidenceLevel();
             msg = new Message();
             msg.obj = textTochange;
             mHandler.sendMessage(msg);

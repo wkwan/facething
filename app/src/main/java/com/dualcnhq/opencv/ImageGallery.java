@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 //import android.provider.MediaStore.Files;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +33,7 @@ public class ImageGallery extends Activity implements
         AdapterView.OnItemSelectedListener, ViewSwitcher.ViewFactory {
  
 	
-	labels thelabels;
+	Labels thelabels;
 	int count=0;
 	Bitmap bmlist[];
 	String namelist[];
@@ -65,7 +64,7 @@ public class ImageGallery extends Activity implements
         Bundle bundle = getIntent().getExtras();
         mPath=bundle.getString("path");
         
-        thelabels=new labels(mPath);
+        thelabels=new Labels(mPath);
         thelabels.Read();
         
         count=0;

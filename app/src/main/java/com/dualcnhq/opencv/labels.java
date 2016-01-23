@@ -14,101 +14,100 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 
-import android.os.Environment;
 import android.util.Log;
 
 
-public class labels {
+public class Labels {
 
 	String mPath;
-	 class label
-	{
+
+	class label {
 		public label(String s, int n) {
-			thelabel=s;
-			num=n;
+			thelabel = s;
+			num = n;
 		}
-		
+
+		public label(int num, String thelabel, String sampleText) {
+			this.num = num;
+			this.thelabel = thelabel;
+			this.sampleText = sampleText;
+		}
+
 		int num;
 		String thelabel;
+		String sampleText;
 	}
-	//	HashMap<Integer,String> thelist=new HashMap<Integer,String>();
 
-	ArrayList<label> thelist=new ArrayList<label>();
-	
-	public labels(String Path)
-	{
-		mPath=Path;
+	ArrayList<label> labels = new ArrayList<>();
+	public Labels(String Path) {
+		mPath = Path;
 	}
-	
-	public boolean isEmpty()
-	{
-		return !(thelist.size()>0);
+
+	public boolean isEmpty() {
+		return !(labels.size() > 0);
 	}
-	
-	public void add(String s,int n)
-	{
-		thelist.add( new label(s,n));
+
+	public void add(String label, int num, String sampleText) {
+		labels.add(new label(num, label, sampleText));
 	}
-	
+
 	public String get(int i) {
-		Iterator<label> Ilabel = thelist.iterator();
+		Iterator<label> Ilabel = labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
-			if (l.num==i)
+			if (l.num == i)
 				return l.thelabel;
 		}
-	  return "";
+		return "";
 	}
-	
+
 	public int get(String s) {
-		Iterator<label> Ilabel = thelist.iterator();
+		Iterator<label> Ilabel = labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
 			if (l.thelabel.equalsIgnoreCase(s))
 				return l.num;
 		}
-	  return -1;
+		return -1;
 	}
-	
-	public void Save()
-	{
+
+	public void Save() {
 		try {
-			File f=new File (mPath+"faces.txt");
+			File f = new File(mPath + "faces.txt");
 			f.createNewFile();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-			Iterator<label> Ilabel = thelist.iterator();
+			Iterator<label> Ilabel = labels.iterator();
 			while (Ilabel.hasNext()) {
 				label l = Ilabel.next();
-				bw.write(l.thelabel+","+l.num);
+				bw.write(l.thelabel + "," + l.num + "," + l.sampleText);
 				bw.newLine();
 			}
 			bw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Log.e("error",e.getMessage()+" "+e.getCause());
+			Log.e("error", e.getMessage() + " " + e.getCause());
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
+
 	public void Read() {
 		try {
 
 			FileInputStream fstream = new FileInputStream(
-					mPath+"faces.txt");
+					mPath + "faces.txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					fstream));
 
 			String strLine;
-			thelist= new ArrayList<label>();
+			labels = new ArrayList<label>();
 			// Read File Line By Line
 			while ((strLine = br.readLine()) != null) {
-				StringTokenizer tokens=new StringTokenizer(strLine,",");
-				String s=tokens.nextToken();
-				String sn=tokens.nextToken();
-				
-				thelist.add(new label(s,Integer.parseInt(sn)));
+				StringTokenizer tokens = new StringTokenizer(strLine, ",");
+				String label = tokens.nextToken();
+				String num = tokens.nextToken();
+				String sampleText = tokens.nextToken();
+
+				labels.add(new label(Integer.parseInt(num), label, sampleText));
 			}
 			br.close();
 			fstream.close();
@@ -119,11 +118,11 @@ public class labels {
 	}
 
 	public int max() {
-		int m=0;
-		Iterator<label> Ilabel = thelist.iterator();
+		int m = 0;
+		Iterator<label> Ilabel = labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
-			if (l.num>m) m=l.num;
+			if (l.num > m) m = l.num;
 		}
 		return m;
 	}
