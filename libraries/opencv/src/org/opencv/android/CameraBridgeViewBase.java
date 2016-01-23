@@ -1,25 +1,27 @@
 package org.opencv.android;
 
-import java.util.List;
-
-import org.opencv.R;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import org.opencv.R;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.highgui.Highgui;
+
+import java.util.List;
 
 /**
  * This is a basic class, implementing the interaction with Camera and OpenCV library.
@@ -383,6 +385,8 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
     protected void deliverAndDrawFrame(CvCameraViewFrame frame) {
         Mat modified;
 
+
+
         if (mListener != null) {
             modified = mListener.onCameraFrame(frame);
         } else {
@@ -420,6 +424,19 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
                          (canvas.getWidth() - mCacheBitmap.getWidth()) / 2 + mCacheBitmap.getWidth(),
                          (canvas.getHeight() - mCacheBitmap.getHeight()) / 2 + mCacheBitmap.getHeight()), null);
                 }
+
+
+                canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+                //canvas.drawBitmap(mCacheBitmap, (canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2, null);
+                //Change to support portrait view
+                Matrix matrix = new Matrix();
+                matrix.preTranslate((canvas.getWidth() - mCacheBitmap.getWidth()) / 2, (canvas.getHeight() - mCacheBitmap.getHeight()) / 2);
+
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+                    matrix.postRotate(90f, (canvas.getWidth()) / 2,(canvas.getHeight()) / 2);
+                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
+
+
 
                 if (mFpsMeter != null) {
                     mFpsMeter.measure();

@@ -20,8 +20,6 @@ public class Tutorial3View extends JavaCameraView {
 
     public Tutorial3View(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        setResolution(getWidth(), getHeight());
-     
     }
 
     public List<String> getEffectList() {
