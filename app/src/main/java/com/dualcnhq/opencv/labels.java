@@ -1,5 +1,7 @@
 package com.dualcnhq.opencv;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,15 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-
-
-import android.util.Log;
-
 
 public class Labels {
 
@@ -38,21 +34,21 @@ public class Labels {
 		String sampleText;
 	}
 
-	ArrayList<label> labels = new ArrayList<>();
+	ArrayList<label> Labels = new ArrayList<>();
 	public Labels(String Path) {
 		mPath = Path;
 	}
 
 	public boolean isEmpty() {
-		return !(labels.size() > 0);
+		return !(Labels.size() > 0);
 	}
 
 	public void add(String label, int num, String sampleText) {
-		labels.add(new label(num, label, sampleText));
+		Labels.add(new label(num, label, sampleText));
 	}
 
 	public String get(int i) {
-		Iterator<label> Ilabel = labels.iterator();
+		Iterator<label> Ilabel = Labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
 			if (l.num == i)
@@ -62,7 +58,7 @@ public class Labels {
 	}
 
 	public int get(String s) {
-		Iterator<label> Ilabel = labels.iterator();
+		Iterator<label> Ilabel = Labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
 			if (l.thelabel.equalsIgnoreCase(s))
@@ -76,7 +72,7 @@ public class Labels {
 			File f = new File(mPath + "faces.txt");
 			f.createNewFile();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-			Iterator<label> Ilabel = labels.iterator();
+			Iterator<label> Ilabel = Labels.iterator();
 			while (Ilabel.hasNext()) {
 				label l = Ilabel.next();
 				bw.write(l.thelabel + "," + l.num + "," + l.sampleText);
@@ -99,7 +95,7 @@ public class Labels {
 					fstream));
 
 			String strLine;
-			labels = new ArrayList<label>();
+			Labels = new ArrayList<label>();
 			// Read File Line By Line
 			while ((strLine = br.readLine()) != null) {
 				StringTokenizer tokens = new StringTokenizer(strLine, ",");
@@ -107,7 +103,7 @@ public class Labels {
 				String num = tokens.nextToken();
 				String sampleText = tokens.nextToken();
 
-				labels.add(new label(Integer.parseInt(num), label, sampleText));
+				Labels.add(new label(Integer.parseInt(num), label, sampleText));
 			}
 			br.close();
 			fstream.close();
@@ -119,7 +115,7 @@ public class Labels {
 
 	public int max() {
 		int m = 0;
-		Iterator<label> Ilabel = labels.iterator();
+		Iterator<label> Ilabel = Labels.iterator();
 		while (Ilabel.hasNext()) {
 			label l = Ilabel.next();
 			if (l.num > m) m = l.num;
