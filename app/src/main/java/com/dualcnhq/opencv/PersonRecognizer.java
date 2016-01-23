@@ -28,14 +28,14 @@ public class PersonRecognizer {
 
     private FaceRecognizer faceRecognizer;
     private String path;
-    private Labels labelsFile;
+    private ProfileManager profileManager;
     private int personNum = 0;
     private int confidenceLevel = 999;
 
     public PersonRecognizer(String path) {
         this.faceRecognizer = com.googlecode.javacv.cpp.opencv_contrib.createLBPHFaceRecognizer(2, 8, 8, 8, 200);
         this.path = path;
-        this.labelsFile = new Labels(path);
+        this.profileManager = new ProfileManager(path);
     }
 
 
@@ -98,11 +98,11 @@ public class PersonRecognizer {
             }
 
             String description = absolutePath.substring(rootFileLength, lastIndexOfDash);
-            if (labelsFile.get(description) < 0) {
-                labelsFile.add(description, labelsFile.max() + 1, "TestingText");
+            if (profileManager.getProfileByName(description) == null) {
+                profileManager.addProfile(description, profileManager.getMaxId() + 1, "TestingText");
             }
 
-            int label = labelsFile.get(description);
+            int label = profileManager.getProfileByName(description).getId();
             IplImage grayImg = IplImage.create(img.width(), img.height(), IPL_DEPTH_8U, 1);
             cvCvtColor(img, grayImg, CV_BGR2GRAY);
             images.put(counter, grayImg);
@@ -110,17 +110,17 @@ public class PersonRecognizer {
             counter++;
         }
 
-        if (counter > 0 && labelsFile.max() > 1) {
+        if (counter > 0 && profileManager.getMaxId() > 1) {
             faceRecognizer.train(images, labels);
         }
 
-        labelsFile.Save();
+        profileManager.processSavingProfileList();
         return true;
     }
 
     // Checking if the labelsFile is at least 2
     public boolean canPredict() {
-        return (labelsFile.max() > 1);
+        return (profileManager.getMaxId() > 1);
     }
 
     public String predict(Mat m) {
@@ -144,7 +144,7 @@ public class PersonRecognizer {
 
         // Returning predicted label
         if (label[0] != -1) {
-            return labelsFile.get(label[0]);
+            return profileManager.getProfileById(label[0]).getName(); //TODO - Null Pointer Detection
         } else {
             return "Unkown";
         }
