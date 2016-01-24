@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
     TextView userInfo;
 
-
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -214,8 +213,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             }
         });
 
-        });
-
         userInfo = (TextView) findViewById(R.id.user_info);
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
@@ -243,11 +240,13 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 } else {
                     if (mLikely < 30)
                     {
+                        Log.d("Main","Name: unknown");
                         userInfo.setText("User: unknown");
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-                        userInfo.setText("User: " + msg.obj.toString());
+                        Log.d("Main","Name: " + msg.obj.toString());
+                        userInfo.setText("Name: " + msg.obj.toString());
                     }
 //                    textresult.setText(msg.obj.toString());
 //                    ivGreen.setVisibility(View.INVISIBLE);
