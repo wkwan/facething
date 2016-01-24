@@ -20,7 +20,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0080B4"
+            android:background="#FF5722"
             android:text="@string/login_btn"
             android:textColor="#fff"
             android:layout_marginLeft = "35dp"

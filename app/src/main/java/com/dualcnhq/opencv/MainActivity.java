@@ -249,11 +249,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         userInfo = (TextView) findViewById(R.id.user_info);
 
-//        final TwitterFactory twitterFactory =  (TwitterFactory)getIntent().getSerializableExtra("factory");
-//        Log.i("qqqqqq", String.format("create mainactivity %b", twitterFactory==null));
-
-
-
         FloatingActionButton twitterButton = (FloatingActionButton) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
