@@ -19,10 +19,15 @@
                 android:layout_height="match_parent" >
 
                 <Button
-                    android:id="@+id/buttonCat"
+                android:id="@+id/buttonCat"
+                android:layout_width="65dp"
+                android:layout_height="68dp"
+                android:text="@string/SViewAll" />
+                <Button
+                    android:id="@+id/demo"
                     android:layout_width="65dp"
                     android:layout_height="68dp"
-                    android:text="@string/SViewAll" />
+                    android:text="Demo" />
 
                 <com.dualcnhq.opencv.Tutorial3View
                     android:id="@+id/tutorial3_activity_java_surface_view"

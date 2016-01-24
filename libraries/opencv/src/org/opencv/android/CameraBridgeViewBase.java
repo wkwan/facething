@@ -29,6 +29,7 @@ import java.util.List;
  */
 public abstract class CameraBridgeViewBase extends SurfaceView implements SurfaceHolder.Callback {
 
+    public boolean isDemo;
     private static final String TAG = "CameraBridge";
     private static final int MAX_UNSPECIFIED = -1;
     private static final int STOPPED = 0;
@@ -64,6 +65,9 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 
     public CameraBridgeViewBase(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        isDemo = context.getClass().getSimpleName().equals("MainActivity");
+
 
         int count = attrs.getAttributeCount();
         Log.d(TAG, "Attr count: " + Integer.valueOf(count));
@@ -432,19 +436,15 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 //                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 //                    matrix.postRotate(90f, (canvas.getWidth()) / 2,(canvas.getHeight()) / 2);
 //                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
-                canvas.rotate(90,0,0);
-//                float scale = canvas.getWidth() / (float)mCacheBitmap.getHeight();
-//                float scale2 = canvas.getHeight() / (float)mCacheBitmap.getWidth();
-//                if(scale2 > scale){
-//                    scale = scale2;
-//                }
-//                if (scale != 0) {
-//                    Log.i("qq", String.format("%f %d %d %d %d", scale, canvas.getWidth(), canvas.getHeight(), mCacheBitmap.getHeight(), mCacheBitmap.getHeight()));
-//                    canvas.scale(scale, scale,0,0);
-//                }
 
-                canvas.scale((float)canvas.getHeight()/(float)mCacheBitmap.getWidth(), (float)canvas.getWidth()/(float)mCacheBitmap.getHeight(), 0, 0);
-                canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
+
+                if (isDemo)
+                {
+                    canvas.rotate(90,0,0);
+                    canvas.scale((float)canvas.getHeight()/(float)mCacheBitmap.getWidth(), (float)canvas.getWidth() / (float)mCacheBitmap.getHeight(), 0, 0);
+                    canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
+                }
+
 
 
 

@@ -2,10 +2,13 @@ package com.dualcnhq.opencv;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -117,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
     ProfileManager profileManager;
 
+    Snackbar sb;
+
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -192,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_main);
@@ -199,8 +205,28 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.button);
+        trainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FdActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        trainButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FdActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+        sb = Snackbar.make(findViewById(R.id.main_base), "Name: " , Snackbar.LENGTH_SHORT);
+
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
+
 
         mPath = getFilesDir() + "/facerecogOCV/";
 
@@ -223,10 +249,13 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 } else {
                     if (mLikely < 30)
                     {
+                        sb.setText("Name: Unknown");
+                        sb.show();
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-
+                        sb.setText("Name: " + msg.obj.toString());
+                        sb.show();
                     }
 //                    textresult.setText(msg.obj.toString());
 //                    ivGreen.setVisibility(View.INVISIBLE);
