@@ -9,18 +9,28 @@
 
     <EditText
         android:id="@+id/name"
+        android:layout_marginTop = "100dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft = "35dp"
+        android:layout_marginRight = "35dp"
         android:hint="Name"/>
 
     <EditText
         android:id="@+id/twitter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft = "35dp"
+        android:layout_marginRight = "35dp"
         android:hint="Twitter"/>
 
     <Button
         android:text="Start Training"
+        android:layout_marginTop = "100dp"
+        android:layout_marginLeft = "35dp"
+        android:layout_marginRight = "35dp"
+
         android:id="@+id/submitBtn"
         android:textColor="#ff000000"
         android:background="#FF5722"

@@ -7,24 +7,26 @@
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" >
+        android:visibility="visible"
+        android:scale>
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login_label"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#0080B4" />
+
+            android:src="@drawable/background"
+            android:scaleType="centerCrop" />
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:background="#0080B4"
             android:text="@string/login_btn"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:layout_marginLeft = "35dp"
+            android:layout_marginRight = "35dp"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
