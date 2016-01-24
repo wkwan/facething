@@ -1,24 +1,24 @@
 package com.dualcnhq.opencv;
 
-import static com.googlecode.javacv.cpp.opencv_highgui.*;
-import static com.googlecode.javacv.cpp.opencv_core.*;
+import android.graphics.Bitmap;
+import android.util.Log;
 
-import static com.googlecode.javacv.cpp.opencv_imgproc.*;
+import com.googlecode.javacv.cpp.opencv_contrib.FaceRecognizer;
+import com.googlecode.javacv.cpp.opencv_core.IplImage;
+import com.googlecode.javacv.cpp.opencv_core.MatVector;
+import com.googlecode.javacv.cpp.opencv_imgproc;
+
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-
-import com.googlecode.javacv.cpp.opencv_imgproc;
-import com.googlecode.javacv.cpp.opencv_contrib.FaceRecognizer;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
-import com.googlecode.javacv.cpp.opencv_core.MatVector;
-
-import android.graphics.Bitmap;
-import android.util.Log;
+import static com.googlecode.javacv.cpp.opencv_core.IPL_DEPTH_8U;
+import static com.googlecode.javacv.cpp.opencv_highgui.cvLoadImage;
+import static com.googlecode.javacv.cpp.opencv_imgproc.CV_BGR2GRAY;
+import static com.googlecode.javacv.cpp.opencv_imgproc.cvCvtColor;
 
 public class PersonRecognizer {
 
@@ -121,6 +121,33 @@ public class PersonRecognizer {
     // Checking if the labelsFile is at least 2
     public boolean canPredict() {
         return (profileManager.getMaxId() > 1);
+    }
+
+    public Profile getPredictedProfile(Mat m) {
+        //TODO - Change to Null later validation?
+        if (!canPredict()) {
+            return null;
+        }
+
+        // Predicting Begins
+        int label[] = new int[1];
+        double confidence[] = new double[1];
+        IplImage ipl = MatToIplImage(m, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this.faceRecognizer.predict(ipl, label, confidence);
+
+        // Setting the confidence level
+        if (label[0] != -1) {
+            confidenceLevel = (int) confidence[0];
+        } else {
+            confidenceLevel = -1;
+        }
+
+        // Returning predicted label
+        if (label[0] != -1) {
+            return profileManager.getProfileById(label[0]);
+        } else {
+            return null;
+        }
     }
 
     public String predict(Mat m) {

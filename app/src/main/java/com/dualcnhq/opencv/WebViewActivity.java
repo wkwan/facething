@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.dualcnhq.opencv.training.TrainingActivity;
+import twitter4j.TwitterFactory;
 
 
 public class WebViewActivity extends Activity {
@@ -16,6 +15,8 @@ public class WebViewActivity extends Activity {
     private WebView webView;
 
     public static String EXTRA_URL = "extra_url";
+
+    TwitterFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,10 @@ public class WebViewActivity extends Activity {
         webView = (WebView) findViewById(R.id.weView);
         webView.setWebViewClient(new MyWebViewClient());
         webView.loadUrl(url);
+
+//        factory = (TwitterFactory) getIntent().getSerializableExtra("factory");
+//        Log.i("qqqqq", String.format("web view on create %b", factory==null));
+
     }
 
     class MyWebViewClient extends WebViewClient {
@@ -48,9 +53,6 @@ public class WebViewActivity extends Activity {
 
                 finish();
 
-                Log.i("qqqqqq", "done webview");
-                Intent trainingActivityIntent = new Intent(WebViewActivity.this, TrainingActivity.class);
-                startActivity(trainingActivityIntent);
                 return true;
             }
             return false;

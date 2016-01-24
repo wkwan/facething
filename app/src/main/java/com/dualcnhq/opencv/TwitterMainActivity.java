@@ -9,12 +9,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dualcnhq.opencv.training.TrainingActivity;
 
 import java.io.InputStream;
 
@@ -31,11 +34,11 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterMainActivity extends Activity implements View.OnClickListener{
 
-    private static final String PREF_NAME = "hi";
-    private static final String PREF_KEY_OAUTH_TOKEN = "4839825345-4YjcXXrf7jIvRTfw6dbtafIuc6Rt4aKZu7fJu3p";
-    private static final String PREF_KEY_OAUTH_SECRET = "xwbhIPlCHr4ExpMUtolLwbIVNhObDs53kVC5oxYG86wyM";
-    private static final String PREF_KEY_TWITTER_LOGIN = "facehack123";
-    private static final String PREF_USER_NAME = "facehack123";
+    public static final String PREF_NAME = "hi";
+    public static final String PREF_KEY_OAUTH_TOKEN = "4839825345-4YjcXXrf7jIvRTfw6dbtafIuc6Rt4aKZu7fJu3p";
+    public static final String PREF_KEY_OAUTH_SECRET = "xwbhIPlCHr4ExpMUtolLwbIVNhObDs53kVC5oxYG86wyM";
+    public static final String PREF_KEY_TWITTER_LOGIN = "facehack123";
+    public static final String PREF_USER_NAME = "facehack123";
 
     public static final int WEBVIEW_REQUEST_CODE = 100;
 
@@ -83,7 +86,14 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
 
         sharedPreferences = getSharedPreferences(PREF_NAME, 0);
 
-        boolean isLoggedIn = sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+        boolean isLoggedIn = false;
+
+        try {
+            sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+        } catch (Exception e)
+        {
+
+        }
 
         if(isLoggedIn) {
             loginLayout.setVisibility(View.GONE);
@@ -113,6 +123,7 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
                     loginLayout.setVisibility(View.GONE);
                     shareLayout.setVisibility(View.VISIBLE);
                     userName.setText(getString(R.string.hello) + " " + username);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -146,6 +157,9 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
             e.putString(PREF_USER_NAME, username);
             e.commit();
 
+            Log.i("qqq", "accesstoken" + " " + accessToken.getToken());
+
+
         } catch (TwitterException e) {
             e.printStackTrace();
         }
@@ -153,7 +167,14 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
 
     private void loginToTwitter() {
 
-        boolean isLoggedIn = sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+        boolean isLoggedIn = false;
+        try
+        {
+            isLoggedIn = sharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+        } catch (Exception e)
+        {
+
+        }
 
         if(!isLoggedIn) {
             final ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -169,6 +190,9 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
 
                 final Intent intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.EXTRA_URL, requestToken.getAuthenticationURL());
+//                intent.putExtra("factory", factory);
+
+//                Log.i("qqqqq", String.format("%b", factory==null));
                 startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
             } catch (TwitterException e) {
                 e.printStackTrace();
@@ -186,19 +210,26 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
             String verifier = data.getExtras().getString(oAuthVerifier);
 
             try {
+                Log.i("qqq", "try to get access token");
                 AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
 
                 long userId = accessToken.getUserId();
                 final User user = twitter.showUser(userId);
                 String username = user.getName();
-
+                Log.i("qqq", "save twitter info");
                 saveTwitterInfo(accessToken);
 
                 loginLayout.setVisibility(View.GONE);
                 shareLayout.setVisibility(View.VISIBLE);
 
                 userName.setText(TwitterMainActivity.this.getResources().getString(R.string.hello)
-                        + " " +username);
+                        + " " + username);
+
+//                Log.i("qqqqqq", String.format("done webview %b", factory == null));
+                Intent trainingActivityIntent = new Intent(TwitterMainActivity.this, TrainingActivity.class);
+//                trainingActivityIntent.putExtra("factory", factory);
+
+                startActivity(trainingActivityIntent);
 
             } catch (Exception e) {
                 e.printStackTrace();
