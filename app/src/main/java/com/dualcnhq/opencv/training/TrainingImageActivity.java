@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,25 +78,17 @@ public class TrainingImageActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_processing_image);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // Getting profile values from intent
         Intent intent = getIntent();
         name = intent.getStringExtra(TrainingActivity.NAME_TAG);
         twitter = intent.getStringExtra(TrainingActivity.TWITTER_TAG);
         path = getFilesDir() + "/facerecogOCV/";
 
-        // Temporary Button
-        Button imageGalleryBtn = (Button) findViewById(R.id.imageGallery);
-        imageGalleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ImageGallery.class);
-                intent.putExtra("path", path);
-                startActivity(intent);
-            }
-        });
-
         imageView = (ImageView) findViewById(R.id.imgView);
-        Button processPictureBtn = (Button) findViewById(R.id.processPictureBtn);
+        FloatingActionButton processPictureBtn = (FloatingActionButton) findViewById(R.id.processPictureBtn);
         processPictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

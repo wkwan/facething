@@ -41,8 +41,17 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_gravity="bottom|end"/>
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/user_info"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="6dp"
+        android:textColor="@android:color/black"
+        android:background="#FF5722"/>
 
 </LinearLayout>

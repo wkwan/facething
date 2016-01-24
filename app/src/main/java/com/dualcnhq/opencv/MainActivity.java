@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -129,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
     ProfileManager profileManager;
 
-    Snackbar sb;
-
+    TextView userInfo;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -223,14 +221,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             }
         });
 
-        trainButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FdActivity.class);
-                startActivity(intent);
-            }
-
-        });
-
+        userInfo = (TextView) findViewById(R.id.user_info);
 
 //        final TwitterFactory twitterFactory =  (TwitterFactory)getIntent().getSerializableExtra("factory");
 //        Log.i("qqqqqq", String.format("create mainactivity %b", twitterFactory==null));
@@ -313,8 +304,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         });
 
-        sb = Snackbar.make(findViewById(R.id.main_base), "Name: " , Snackbar.LENGTH_INDEFINITE);
-
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -340,14 +329,13 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 } else {
                     if (mLikely < 30)
                     {
-                        sb.setText("Name: Unknown");
-                        sb.show();
+                        Log.d("Main","Name: unknown");
+                        userInfo.setText("User: unknown");
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-                        nameToTweet = msg.obj.toString();
-                        sb.setText("Name: " + msg.obj.toString());
-                        sb.show();
+                        Log.d("Main","Name: " + msg.obj.toString());
+                        userInfo.setText("Name: " + msg.obj.toString());
                     }
 //                    textresult.setText(msg.obj.toString());
 //                    ivGreen.setVisibility(View.INVISIBLE);
@@ -642,7 +630,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 mLikely = fr.getConfidenceLevel();
                 msg = new Message();
                 msg.obj = textTochange;
-//                msg.
                 mHandler.sendMessage(msg);
             }
             else

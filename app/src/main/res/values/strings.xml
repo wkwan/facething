@@ -18,8 +18,8 @@
     <string name="SSearching">Searching</string>
     <string name="SFrontCamera">Front Camera</string>
     <string name="SBackCamera">Back Camera</string>
-    <string name="title_activity_training">TrainingActivit</string>
-    <string name="title_activity_processing_image">ProcessingImageActivity</string>
+    <string name="title_activity_training">Training Activity</string>
+    <string name="title_activity_processing_image">Recognize Face</string>
 
 
 
