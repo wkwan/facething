@@ -66,7 +66,8 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
     public CameraBridgeViewBase(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        isDemo = context.getClass().getSimpleName().equals("MainActivity");
+        isDemo = (context.getClass().getSimpleName().equals("MainActivity") ||
+        context.getClass().getSimpleName().equals("TrainingImageActivity"));
 
 
         int count = attrs.getAttributeCount();
@@ -438,12 +439,12 @@ public abstract class CameraBridgeViewBase extends SurfaceView implements Surfac
 //                canvas.drawBitmap(mCacheBitmap, matrix, new Paint());
 
 
-                if (isDemo)
-                {
-                    canvas.rotate(90,0,0);
-                    canvas.scale((float)canvas.getHeight()/(float)mCacheBitmap.getWidth(), (float)canvas.getWidth() / (float)mCacheBitmap.getHeight(), 0, 0);
-                    canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
-                }
+//                if (isDemo)
+//                {
+//                    canvas.rotate(90,0,0);
+//                    canvas.scale((float)canvas.getHeight()/(float)mCacheBitmap.getWidth(), (float)canvas.getWidth() / (float)mCacheBitmap.getHeight(), 0, 0);
+//                    canvas.drawBitmap(mCacheBitmap, 0, -mCacheBitmap.getHeight(), null);
+//                }
 
 
 
