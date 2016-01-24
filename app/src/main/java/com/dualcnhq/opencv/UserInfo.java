@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class UserInfo extends AppCompatActivity {
 
     ListView mListView;
+    public static final String TWITTER_FEED_ARRAY = "twitterFeedArray";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +21,18 @@ public class UserInfo extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //mListView = (ListView) findViewById(R.id.)
+        String[] testData = null;
+
+        if(getIntent() != null) {
+            testData = getIntent().getStringArrayExtra(TWITTER_FEED_ARRAY);
+            if(testData == null)
+                testData = new String[]{""};
+        }
+
+        mListView = (ListView) findViewById(R.id.listView);
+        mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, testData));
+        mListView.setDivider(null);
+        mListView.setDividerHeight(0);
     }
 
     @Override

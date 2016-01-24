@@ -211,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             @Override
             public void onClick(View v) {
 
+                String[] feedData = null;
+                Intent i = new Intent(getApplicationContext(), UserInfo.class);
+                i.putExtra(UserInfo.TWITTER_FEED_ARRAY, feedData);
+
+                startActivity(i);
             }
         });
 
