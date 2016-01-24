@@ -1,14 +1,14 @@
-package com.dualcnhq.opencv;
+package com.dualcnhq.opencv.training;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.dualcnhq.opencv.R;
 
 public class TrainingActivity extends AppCompatActivity {
 
@@ -31,9 +31,9 @@ public class TrainingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isInputValid()) {
-                    Intent intent = new Intent(getApplicationContext(), ProcessingImageActivity.class);
-                    intent.putExtra(NAME_TAG, nameEditText.getText());
-                    intent.putExtra(TWITTER_TAG, twitterEditText.getText());
+                    Intent intent = new Intent(getApplicationContext(), TrainingImageActivity.class);
+                    intent.putExtra(NAME_TAG, nameEditText.getText().toString());
+                    intent.putExtra(TWITTER_TAG, twitterEditText.getText().toString());
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();

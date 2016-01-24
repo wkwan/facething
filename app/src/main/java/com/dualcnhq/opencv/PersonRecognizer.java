@@ -40,7 +40,7 @@ public class PersonRecognizer {
 
 
     // Adding picture for the person.
-    void add(Mat mat, String description) {
+    public void add(Mat mat, String description) {
 
         // Transforming mat into bitmap & scaling
         Bitmap bmp = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.ARGB_8888);
