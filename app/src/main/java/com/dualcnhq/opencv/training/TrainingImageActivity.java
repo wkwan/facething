@@ -3,6 +3,8 @@ package com.dualcnhq.opencv.training;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dualcnhq.opencv.ImageGallery;
+import com.dualcnhq.opencv.MainActivity;
 import com.dualcnhq.opencv.PersonRecognizer;
 import com.dualcnhq.opencv.ProfileManager;
 import com.dualcnhq.opencv.R;
@@ -49,6 +53,9 @@ public class TrainingImageActivity extends AppCompatActivity {
     private CascadeClassifier mJavaDetector;
     private PersonRecognizer personRecognizer;
     private Bitmap mBitmap;
+    private Mat mMat;
+    private ImageView imageView;
+    private Handler mHandler;
 
     private float mRelativeFaceSize = 0.2f;
     private int mAbsoluteFaceSize = 0;
@@ -82,6 +89,17 @@ public class TrainingImageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ImageGallery.class);
                 intent.putExtra("path", path);
+                startActivity(intent);
+            }
+        });
+
+        imageView = (ImageView) findViewById(R.id.imgView);
+        Button processPictureBtn = (Button) findViewById(R.id.processPictureBtn);
+        processPictureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -128,8 +146,14 @@ public class TrainingImageActivity extends AppCompatActivity {
 
                     mat = mRgba.submat(r);
                     mBitmap = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.ARGB_8888);
+
+                    Message msg = new Message();
+                    String textTochange = "IMG";
+                    msg.obj = textTochange;
+                    mHandler.sendMessage(msg);
+
                     Utils.matToBitmap(mat, mBitmap);
-                    personRecognizer.add(mat, name);
+                    mMat = mat;
                 }
 
                 for (int i = 0; i < facesArray.length; i++) {
@@ -139,12 +163,39 @@ public class TrainingImageActivity extends AppCompatActivity {
                 return mRgba;
             }
         });
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.obj == "IMG") {
+                    Canvas canvas = new Canvas();
+                    canvas.setBitmap(mBitmap);
+                    imageView.setImageBitmap(mBitmap);
+                }
+            }
+        };
+    }
+
+    private void saveImage() {
+        personRecognizer.add(mMat, name);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (tutorial3View != null)
+            tutorial3View.disableView();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        tutorial3View.disableView();
     }
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {

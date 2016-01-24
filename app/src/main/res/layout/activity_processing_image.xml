@@ -13,10 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/processPictureBtn"
+        android:text="Good Picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_width="180px"
+        android:layout_height="180px" />
+
     <com.dualcnhq.opencv.Tutorial3View
         android:id="@+id/tutorialView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+
 
 
 </LinearLayout>
