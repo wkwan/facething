@@ -29,6 +29,13 @@ public class UserInfo extends AppCompatActivity {
                 testData = new String[]{""};
         }
 
+        WordAnalyzingManager wordAnalyzingManager = new WordAnalyzingManager();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : testData) {
+            stringBuilder.append(s);
+        }
+        testData = wordAnalyzingManager.process(stringBuilder.toString());
+
         mListView = (ListView) findViewById(R.id.listView);
         mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, testData));
         mListView.setDivider(null);
