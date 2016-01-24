@@ -207,10 +207,12 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.button);
         trainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FdActivity.class);
                 startActivity(intent);
             }
+        });
 
         });
 
