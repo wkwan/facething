@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-                        userInfo.setText("User: " + msg.obj.toString().isEmpty());
+                        userInfo.setText("User: " + msg.obj.toString());
                     }
 //                    textresult.setText(msg.obj.toString());
 //                    ivGreen.setVisibility(View.INVISIBLE);
