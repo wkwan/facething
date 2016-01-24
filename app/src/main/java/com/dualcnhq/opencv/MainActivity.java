@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //
     private MenuItem nBackCam;
     private MenuItem mFrontCam;
+    private MenuItem mImageGallery;
     private MenuItem mEigen;
 
 
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         FloatingActionButton twitterButton = (FloatingActionButton) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!tweetID.isEmpty()) {
+                if (tweetID != null) {
                     Log.i("qqqqq", "clicking the twitter button");
 
                     ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -280,7 +281,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                         Log.i("qqq", "try to update status " + tweetID);
 
                         twitter.createFriendship(tweetID);
-//                        Log.i("qqq", "after update status " + response.getText());
                         Toast.makeText(MainActivity.this, "Followed " + tweetID, Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
@@ -288,6 +288,8 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
                     }
 
+                } else {
+                    Toast.makeText(MainActivity.this, "No person has been detected" , Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -513,6 +515,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         if (mOpenCvCameraView.numberCameras() > 1) {
             nBackCam = menu.add(getResources().getString(R.string.SFrontCamera));
             mFrontCam = menu.add(getResources().getString(R.string.SBackCamera));
+            mImageGallery = menu.add("Profile Gallery");
 //        mEigen = menu.add("EigenFaces");
 //        mLBPH.setChecked(true);
         } else {
@@ -537,7 +540,12 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         else if (item == mFrontCam) {
             mChooseCamera = backCam;
             mOpenCvCameraView.setCamBack();
+        }
 
+        else if (item == mImageGallery) {
+            Intent intent = new Intent(getApplicationContext(), ImageGallery.class);
+            intent.putExtra("path", mPath);
+            startActivity(intent);
         }
 
         item.setChecked(true);
