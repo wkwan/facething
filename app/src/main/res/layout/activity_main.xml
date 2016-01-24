@@ -38,4 +38,16 @@
 
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#FF5722">
+
+        <TextView
+            android:id="@+id/user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF5722"/>
+
+    </LinearLayout>
 </LinearLayout>

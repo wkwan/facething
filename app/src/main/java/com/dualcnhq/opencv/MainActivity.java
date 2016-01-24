@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
     ProfileManager profileManager;
 
-    Snackbar sb;
+    TextView userInfo;
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -207,14 +207,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.button);
         trainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FdActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        trainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FdActivity.class);
                 startActivity(intent);
@@ -222,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         });
 
-        sb = Snackbar.make(findViewById(R.id.main_base), "Name: " , Snackbar.LENGTH_SHORT);
+        userInfo = (TextView) findViewById(R.id.user_info);
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -249,13 +241,11 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 } else {
                     if (mLikely < 30)
                     {
-                        sb.setText("Name: Unknown");
-                        sb.show();
+                        userInfo.setText("User: unknown");
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
-                        sb.setText("Name: " + msg.obj.toString());
-                        sb.show();
+                        userInfo.setText("User: " + msg.obj.toString().isEmpty());
                     }
 //                    textresult.setText(msg.obj.toString());
 //                    ivGreen.setVisibility(View.INVISIBLE);
