@@ -1,7 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">#FF5722</item> <!-- Deep Oragne 500 -->
+        <item name="colorPrimaryDark">#E64A19</item> <!-- Deep Orange 700 -->
+        <item name="colorAccent">#55acee</item> <!-- Twitter Blue -->
+
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
