@@ -42,6 +42,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import twitter4j.TwitterFactory;
+
 //import java.io.FileNotFoundException;
 
 
@@ -116,6 +118,9 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     int countImages = 0;
 
     ProfileManager profileManager;
+
+    TwitterFactory factory;
+
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -195,11 +200,18 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
         setContentView(R.layout.face_detect_surface_view);
 
+//        factory = (TwitterFactory) getIntent().getSerializableExtra("factory");
+//        Log.i("qqqqqq", String.format("create fdactivity %b", factory==null));
+
+
+
         Button demoButton = (Button)findViewById(R.id.demo);
 
         demoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(FdActivity.this, MainActivity.class);
+//                intent.putExtra("factory", factory);
+//                Log.i("qqqqqq", String.format("done fdactivity %b", factory==null));
                 startActivity(intent);
             }
 
@@ -421,7 +433,6 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        Log.i("qqq", String.format("%d", faceState));
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 

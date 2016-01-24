@@ -1,8 +1,8 @@
 package com.dualcnhq.opencv;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -43,13 +42,22 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.ConfigurationBuilder;
 
 //import java.io.FileNotFoundException;
 
 
 public class MainActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
+    String nameToTweet = "";
     private static final String TAG = "OCVSample::Activity";
     private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
     public static final int JAVA_DETECTOR = 0;
@@ -94,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
     private Tutorial3View mOpenCvCameraView;
     private int mChooseCamera = backCam;
+    private String tweetID;
 
     EditText text;
     TextView textresult;
@@ -222,7 +231,89 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         });
 
-        sb = Snackbar.make(findViewById(R.id.main_base), "Name: " , Snackbar.LENGTH_SHORT);
+
+//        final TwitterFactory twitterFactory =  (TwitterFactory)getIntent().getSerializableExtra("factory");
+//        Log.i("qqqqqq", String.format("create mainactivity %b", twitterFactory==null));
+
+
+
+        Button twitterButton = (Button)findViewById(R.id.twitter);
+        twitterButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!nameToTweet.isEmpty())
+                {
+                    Log.i("qqqqq", "clicking the twitter button");
+
+//                ConfigurationBuilder cb = new ConfigurationBuilder();
+//
+//                SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
+//                cb.setDebugEnabled(true)
+//                        .setOAuthConsumerKey(getString(R.string.twitter_consumer_key))
+//                        .setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret))
+//                        .setOAuthAccessToken(sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, ""))
+//                        .setOAuthAccessTokenSecret(sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
+//
+//                Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
+//
+//                TwitterFactory tf = new TwitterFactory(cb.build());
+//                Twitter twitter = tf.getInstance();
+//                try {
+//                    twitter.createFriendship("@torontoist");
+//
+//                } catch (Exception e) {
+//                    Log.i("qqq", e.getMessage());
+//
+//                }
+
+                    ConfigurationBuilder builder = new ConfigurationBuilder();
+                    builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+                    builder.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
+
+                    String access_token = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "");
+                    String acces_token_secret = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, "");
+
+                    AccessToken accessToken = new AccessToken(access_token, acces_token_secret);
+
+                    Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
+
+
+                    Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+
+
+                    StatusUpdate statusUpdate = new StatusUpdate("I saw " + " " + tweetID + " on " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())  + " !");
+                    InputStream is = getResources().openRawResource(+R.mipmap.landscape);
+
+
+                    try {
+                        Log.i("qqq", "try to update status " + nameToTweet);
+                        twitter4j.Status response = twitter.updateStatus(statusUpdate);
+//                    twitter.createFriendship("Los Colibris");
+//                  twitter.createFriendship("@torontoist");
+                        Log.i("qqq", "after update status " + response.getText());
+
+                    } catch (Exception e) {
+                        Log.i("qqq", e.getMessage());
+
+                    }
+
+
+
+//                StatusUpdate statusUpdate = new StatusUpdate(status);
+//                InputStream is = getResources().openRawResource(+R.mipmap.landscape);
+//                statusUpdate.setMedia("test.jpg", is);
+//
+//                twitter4j.Status response = twitter.updateStatus(statusUpdate);
+                }
+
+
+            }
+
+        });
+
+        sb = Snackbar.make(findViewById(R.id.main_base), "Name: " , Snackbar.LENGTH_INDEFINITE);
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -254,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
+                        nameToTweet = msg.obj.toString();
                         sb.setText("Name: " + msg.obj.toString());
                         sb.show();
                     }
@@ -411,6 +503,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //        }
 
 
+
         faceState = SEARCHING;
 
         boolean success = (new File(mPath)).mkdirs();
@@ -539,10 +632,17 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 msg.obj = textTochange;
                 mHandler.sendMessage(msg);
 
-                textTochange = fr.predict(m);
+//                textTochange = fr.predict(m);
+                Profile profile = fr.getPredictedProfile(m);
+                if (profile != null) {
+                    textTochange = profile.getName();
+                    tweetID = profile.getTwitterID();
+                }
+
                 mLikely = fr.getConfidenceLevel();
                 msg = new Message();
                 msg.obj = textTochange;
+//                msg.
                 mHandler.sendMessage(msg);
             }
             else
