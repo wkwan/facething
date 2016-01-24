@@ -174,6 +174,11 @@ public class TrainingImageActivity extends AppCompatActivity {
                 }
             }
         };
+
+        boolean success = (new File(path)).mkdirs();
+        if (!success) {
+            //TODO - log the error.
+        }
     }
 
     private void saveImage() {
@@ -229,9 +234,9 @@ public class TrainingImageActivity extends AppCompatActivity {
                         } else
 //                            Log.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
 
-                        //                 mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
+                            //                 mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
 
-                        cascadeDir.delete();
+                            cascadeDir.delete();
 
                     } catch (IOException e) {
                         e.printStackTrace();
