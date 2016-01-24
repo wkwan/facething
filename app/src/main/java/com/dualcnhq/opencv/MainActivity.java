@@ -223,12 +223,19 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             @Override
             public void onClick(View v) {
 
-                String[] feedData = null;
+                //TODO - Getting the Twitter Information
+                String[] feedData = getTweetData();
+                if (feedData == null) {
+                    //TODO - Log Message
+                    Log.e("Tweeter", "Were not able to fetch tweet information");
+                }
                 Intent i = new Intent(getApplicationContext(), UserInfo.class);
                 i.putExtra(UserInfo.TWITTER_FEED_ARRAY, feedData);
 
                 startActivity(i);
             }
+
+
         });
 
         FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.training_button);
@@ -332,12 +339,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
                     }
 
-
-//                StatusUpdate statusUpdate = new StatusUpdate(status);
-//                InputStream is = getResources().openRawResource(+R.mipmap.landscape);
-//                statusUpdate.setMedia("test.jpg", is);
-//
-//                twitter4j.Status response = twitter.updateStatus(statusUpdate);
                 }
 
 
@@ -360,13 +361,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             @Override
             public void handleMessage(Message msg) {
                 if (msg.obj == "IMG") {
-//                    Canvas canvas = new Canvas();
-//                    canvas.setBitmap(mBitmap);
-//                    Iv.setImageBitmap(mBitmap);
-//                    if (countImages >= MAXIMG - 1) {
-//                        toggleButtonGrabar.setChecked(false);
-//                        grabarOnclick();
-//                    }
+
                 } else {
                     if (mLikely < 30) {
                         Log.d("Main", "Name: unknown");
@@ -376,159 +371,9 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                         Log.d("Main", "Name: " + msg.obj.toString());
                         userInfo.setText("Name: " + msg.obj.toString());
                     }
-//                    textresult.setText(msg.obj.toString());
-//                    ivGreen.setVisibility(View.INVISIBLE);
-//                    ivYellow.setVisibility(View.INVISIBLE);
-//                    ivRed.setVisibility(View.INVISIBLE);
-//
-//                    if (mLikely < 0) ;
-//                    else if (mLikely < 50)
-//                        ivGreen.setVisibility(View.VISIBLE);
-//                    else if (mLikely < 80)
-//                        ivYellow.setVisibility(View.VISIBLE);
-//                    else
-//                        ivRed.setVisibility(View.VISIBLE);
                 }
             }
         };
-//        text = (EditText) findViewById(R.id.editText1);
-//        buttonCatalog = (Button) findViewById(R.id.buttonCat);
-//        toggleButtonGrabar = (ToggleButton) findViewById(R.id.toggleButtonGrabar);
-//        buttonSearch = (ToggleButton) findViewById(R.id.buttonBuscar);
-//        toggleButtonTrain = (ToggleButton) findViewById(R.id.toggleButton1);
-//        textState = (TextView) findViewById(R.id.textViewState);
-//        ivGreen = (ImageView) findViewById(R.id.imageView3);
-//        ivYellow = (ImageView) findViewById(R.id.imageView4);
-//        ivRed = (ImageView) findViewById(R.id.imageView2);
-//        imCamera = (ImageButton) findViewById(R.id.imageButton1);
-
-//        ivGreen.setVisibility(View.INVISIBLE);
-//        ivYellow.setVisibility(View.INVISIBLE);
-//        ivRed.setVisibility(View.INVISIBLE);
-//        text.setVisibility(View.INVISIBLE);
-//        textresult.setVisibility(View.INVISIBLE);
-//
-//
-//        toggleButtonGrabar.setVisibility(View.INVISIBLE);
-
-//        buttonCatalog.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                Intent i = new Intent(FdActivity.this, ImageGallery.class);
-//                i.putExtra("path", mPath);
-//                startActivity(i);
-//            }
-//
-//            ;
-//        });
-
-
-//        text.setOnKeyListener(new View.OnKeyListener() {
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if ((text.getText().toString().length() > 0) && (toggleButtonTrain.isChecked()))
-//                    toggleButtonGrabar.setVisibility(View.VISIBLE);
-//                else
-//                    toggleButtonGrabar.setVisibility(View.INVISIBLE);
-//
-//                return false;
-//            }
-//        });
-
-
-//        toggleButtonTrain.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                if (toggleButtonTrain.isChecked()) {
-//                    textState.setText(getResources().getString(R.string.SEnter));
-//                    buttonSearch.setVisibility(View.INVISIBLE);
-//                    textresult.setVisibility(View.VISIBLE);
-//                    text.setVisibility(View.VISIBLE);
-//                    textresult.setText(getResources().getString(R.string.SFaceName));
-//                    if (text.getText().toString().length() > 0)
-//                        toggleButtonGrabar.setVisibility(View.VISIBLE);
-//
-//
-//                    ivGreen.setVisibility(View.INVISIBLE);
-//                    ivYellow.setVisibility(View.INVISIBLE);
-//                    ivRed.setVisibility(View.INVISIBLE);
-//
-//
-//                } else {
-//                    textState.setText(R.string.Straininig);
-//                    textresult.setText("");
-//                    text.setVisibility(View.INVISIBLE);
-//
-//                    buttonSearch.setVisibility(View.VISIBLE);
-//                    ;
-//                    textresult.setText("");
-//                    {
-//                        toggleButtonGrabar.setVisibility(View.INVISIBLE);
-//                        text.setVisibility(View.INVISIBLE);
-//                    }
-//                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Straininig), Toast.LENGTH_LONG).show();
-//                    fr.train();
-//                    textState.setText(getResources().getString(R.string.SIdle));
-//
-//                }
-//            }
-//
-//        });
-
-
-//        toggleButtonGrabar.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View v) {
-//                grabarOnclick();
-//            }
-//        });
-//
-//        imCamera.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View v) {
-//
-//                if (mChooseCamera == frontCam) {
-//                    mChooseCamera = backCam;
-//                    mOpenCvCameraView.setCamBack();
-//                } else {
-//                    mChooseCamera = frontCam;
-//                    mOpenCvCameraView.setCamFront();
-//
-//                }
-//            }
-//        });
-
-//        buttonSearch.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View v) {
-//                if (buttonSearch.isChecked()) {
-//                    if (!fr.canPredict()) {
-//                        buttonSearch.setChecked(false);
-//                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.SCanntoPredic), Toast.LENGTH_LONG).show();
-//                        return;
-//                    }
-//                    textState.setText(getResources().getString(R.string.SSearching));
-//                    toggleButtonGrabar.setVisibility(View.INVISIBLE);
-//                    toggleButtonTrain.setVisibility(View.INVISIBLE);
-//                    text.setVisibility(View.INVISIBLE);
-//                    faceState = SEARCHING;
-//                    textresult.setVisibility(View.VISIBLE);
-//                } else {
-//                    faceState = IDLE;
-//                    textState.setText(getResources().getString(R.string.SIdle));
-//                    toggleButtonGrabar.setVisibility(View.INVISIBLE);
-//                    toggleButtonTrain.setVisibility(View.VISIBLE);
-//                    text.setVisibility(View.INVISIBLE);
-//                    textresult.setVisibility(View.INVISIBLE);
-//
-//                }
-//            }
-//        });
-
-
-//        if (!fr.canPredict()) {
-//            buttonSearch.setChecked(false);
-//            Toast.makeText(getApplicationContext(), getResources().getString(R.string.SCanntoPredic), Toast.LENGTH_LONG).show();
-//            return;
-//        }
-
 
         faceState = SEARCHING;
 
@@ -538,19 +383,42 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         }
     }
 
-//    void grabarOnclick() {
-//        if (toggleButtonGrabar.isChecked())
-//            faceState = TRAINING;
-//        else {
-//            if (faceState == TRAINING) ;
-//            // train();
-//            //fr.train();
-//            countImages = 0;
-//            faceState = IDLE;
-//        }
-//
-//
-//    }
+    private String[] getTweetData() {
+        if (!nameToTweet.isEmpty()) {
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+            builder.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
+
+            SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
+
+            String access_token = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "");
+            String acces_token_secret = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, "");
+
+            AccessToken accessToken = new AccessToken(access_token, acces_token_secret);
+
+            Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
+
+
+            Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+            //First param of Paging() is the page number, second is the number per page (this is capped around 200 I think.
+            Paging paging = new Paging(1, 5);
+            try {
+                List<Status> statuses = twitter.getUserTimeline(tweetID, paging);
+                String[] twitList = new String[statuses.size()];
+                for (int i = 0; i < statuses.size(); i++) {
+                    twitList[i] = statuses.get(i).getText();
+                }
+
+                return twitList;
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
 
     @Override
     public void onPause() {
@@ -709,20 +577,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i(TAG, "called onOptionsItemSelected; selected item: " + item);
-//        if (item == mItemFace50)
-//            setMinFaceSize(0.5f);
-//        else if (item == mItemFace40)
-//            setMinFaceSize(0.4f);
-//        else if (item == mItemFace30)
-//            setMinFaceSize(0.3f);
-//        else if (item == mItemFace20)
-//            setMinFaceSize(0.2f);
-//        else if (item == mItemType) {
-//            mDetectorType = (mDetectorType + 1) % mDetectorName.length;
-//            item.setTitle(mDetectorName[mDetectorType]);
-//            setDetectorType(mDetectorType);
-//
-//        }
         nBackCam.setChecked(false);
         mFrontCam.setChecked(false);
         //  mEigen.setChecked(false);
@@ -746,167 +600,4 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         mRelativeFaceSize = faceSize;
         mAbsoluteFaceSize = 0;
     }
-
-    private void setDetectorType(int type) {
-//        if (mDetectorType != type) {
-//            mDetectorType = type;
-//
-//            if (type == NATIVE_DETECTOR) {
-//                Log.i(TAG, "Detection Based Tracker enabled");
-//                mNativeDetector.start();
-//            } else {
-//                Log.i(TAG, "Cascade detector enabled");
-//                mNativeDetector.stop();
-//            }
-//        }
-    }
-
-
 }
-
-//package com.dualcnhq.opencv;
-//
-//import android.graphics.Bitmap;
-//import android.os.Message;
-//import android.support.v7.app.AppCompatActivity;
-//import android.os.Bundle;
-//import android.util.Log;
-//import android.view.Menu;
-//import android.view.MenuItem;
-//
-//import org.opencv.android.CameraBridgeViewBase;
-//import org.opencv.android.Utils;
-//import org.opencv.core.Core;
-//import org.opencv.core.Mat;
-//import org.opencv.core.MatOfRect;
-//import org.opencv.core.Rect;
-//import org.opencv.core.Size;
-//
-//public class MainActivity extends AppCompatActivity {
-//
-//    private Tutorial3View faceView;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        this.faceView = (Tutorial3View) findViewById(R.id.faceView);
-//        this.faceView.setCvCameraViewListener(new CameraBridgeViewBase.CvCameraViewListener2() {
-//            @Override
-//            public void onCameraViewStarted(int width, int height) {
-//
-//            }
-//
-//            @Override
-//            public void onCameraViewStopped() {
-//
-//            }
-//
-//            @Override
-//            public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-//                return null;
-//            }
-//        });
-//    }
-//
-//    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-//
-//        mRgba = inputFrame.rgba();
-//        mGray = inputFrame.gray();
-//
-//        if (mAbsoluteFaceSize == 0) {
-//            int height = mGray.rows();
-//            if (Math.round(height * mRelativeFaceSize) > 0) {
-//                mAbsoluteFaceSize = Math.round(height * mRelativeFaceSize);
-//            }
-//            //  mNativeDetector.setMinFaceSize(mAbsoluteFaceSize);
-//        }
-//
-//        MatOfRect faces = new MatOfRect();
-//
-//        if (mDetectorType == JAVA_DETECTOR) {
-//            if (mJavaDetector != null)
-//                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
-//                        new Size(mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
-//        } else if (mDetectorType == NATIVE_DETECTOR) {
-////            if (mNativeDetector != null)
-////                mNativeDetector.detect(mGray, faces);
-//        } else {
-//            Log.e(TAG, "Detection method is not selected!");
-//        }
-//
-//        Rect[] facesArray = faces.toArray();
-//
-//        if ((facesArray.length == 1) && (faceState == TRAINING) && (countImages < MAXIMG) && (!text.getText().toString().isEmpty())) {
-//
-//
-//            Mat m = new Mat();
-//            Rect r = facesArray[0];
-//
-//
-//            m = mRgba.submat(r);
-//            mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
-//
-//
-//            Utils.matToBitmap(m, mBitmap);
-//            // SaveBmp(mBitmap,"/sdcard/db/I("+countTrain+")"+countImages+".jpg");
-//
-//            Message msg = new Message();
-//            String textTochange = "IMG";
-//            msg.obj = textTochange;
-//            mHandler.sendMessage(msg);
-//            if (countImages < MAXIMG) {
-//                fr.add(m, text.getText().toString());
-//                countImages++;
-//            }
-//
-//        } else if ((facesArray.length > 0) && (faceState == SEARCHING)) {
-//            Mat m = new Mat();
-//            m = mGray.submat(facesArray[0]);
-//            mBitmap = Bitmap.createBitmap(m.width(), m.height(), Bitmap.Config.ARGB_8888);
-//
-//
-//            Utils.matToBitmap(m, mBitmap);
-//            Message msg = new Message();
-//            String textTochange = "IMG";
-//            msg.obj = textTochange;
-//            mHandler.sendMessage(msg);
-//
-//            textTochange = fr.predict(m);
-//            mLikely = fr.getProb();
-//            msg = new Message();
-//            msg.obj = textTochange;
-//            mHandler.sendMessage(msg);
-//
-//        }
-//        for (int i = 0; i < facesArray.length; i++)
-//
-//            Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
-//
-//        return mRgba;
-//    }
-//
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//}
