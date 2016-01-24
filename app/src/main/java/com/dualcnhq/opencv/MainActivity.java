@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.dualcnhq.opencv.training.TrainingActivity;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
@@ -204,11 +206,19 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.button);
+        FloatingActionButton getUserInfoButton = (FloatingActionButton) findViewById(R.id.getUserInfoButton);
+        getUserInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.training_button);
         trainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FdActivity.class);
+                Intent intent = new Intent(MainActivity.this, TrainingActivity.class);
                 startActivity(intent);
             }
         });
