@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dualcnhq.opencv.training.TrainingActivity;
+
 import java.io.InputStream;
 
 import twitter4j.StatusUpdate;
@@ -224,7 +226,7 @@ public class TwitterMainActivity extends Activity implements View.OnClickListene
                         + " " + username);
 
 //                Log.i("qqqqqq", String.format("done webview %b", factory == null));
-                Intent trainingActivityIntent = new Intent(TwitterMainActivity.this, FdActivity.class);
+                Intent trainingActivityIntent = new Intent(TwitterMainActivity.this, TrainingActivity.class);
 //                trainingActivityIntent.putExtra("factory", factory);
 
                 startActivity(trainingActivityIntent);

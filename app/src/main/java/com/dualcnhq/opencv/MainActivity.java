@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.dualcnhq.opencv.training.TrainingActivity;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         trainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FdActivity.class);
+                Intent intent = new Intent(MainActivity.this, TrainingActivity.class);
                 startActivity(intent);
             }
         });
@@ -274,12 +276,12 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
 
 
-                    StatusUpdate statusUpdate = new StatusUpdate("I saw " + " " + tweetID + " on " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())  + " !");
+                    StatusUpdate statusUpdate = new StatusUpdate("I saw " + " " + nameToTweet + " on " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())  + " !");
                     InputStream is = getResources().openRawResource(+R.mipmap.landscape);
 
 
                     try {
-                        Log.i("qqq", "try to update status " + nameToTweet);
+                        Log.i("qqq", "try to update status " + tweetID);
                         twitter4j.Status response = twitter.updateStatus(statusUpdate);
 //                    twitter.createFriendship("Los Colibris");
 //                  twitter.createFriendship("@torontoist");
@@ -334,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                     }
                     else if (msg.obj != null && !msg.obj.toString().isEmpty())
                     {
+                        nameToTweet = msg.obj.toString();
                         Log.d("Main","Name: " + msg.obj.toString());
                         userInfo.setText("Name: " + msg.obj.toString());
                     }
@@ -625,6 +628,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 if (profile != null) {
                     textTochange = profile.getName();
                     tweetID = profile.getTwitterID();
+                    Log.i("qqqq", "getting tweetid " + tweetID);
                 }
 
                 mLikely = fr.getConfidenceLevel();
