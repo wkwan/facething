@@ -2,6 +2,7 @@ package com.dualcnhq.opencv;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -193,9 +194,21 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_main);
+
+        Button trainButton = (Button)findViewById(R.id.train);
+
+        trainButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FdActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
 
         info = (RelativeLayout)findViewById(R.id.info);
         info.setVisibility(View.INVISIBLE);

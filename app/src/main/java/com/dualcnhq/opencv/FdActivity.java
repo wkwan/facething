@@ -195,6 +195,16 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
         setContentView(R.layout.face_detect_surface_view);
 
+        Button demoButton = (Button)findViewById(R.id.demo);
+
+        demoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(FdActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.tutorial3_activity_java_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -415,7 +425,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-
+        Log.i("qqq", String.format("%d", faceState));
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
