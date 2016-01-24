@@ -95,6 +95,7 @@ public class TrainingImageActivity extends AppCompatActivity {
                 saveImage();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

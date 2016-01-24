@@ -35,4 +35,5 @@
     <string name="twitter_consumer_secret">1AoDPB4aMwo7njrMRG4ycIrTB582xZMZrRhW6vjd3GkSljPRCX</string>
     <string name="twitter_oauth_verifier">oauth_verifier</string>
     <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_user_info">User Info</string>
 </resources>

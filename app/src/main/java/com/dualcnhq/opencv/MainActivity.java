@@ -214,7 +214,15 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.button);
+        FloatingActionButton getUserInfoButton = (FloatingActionButton) findViewById(R.id.getUserInfoButton);
+        getUserInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        FloatingActionButton trainButton = (FloatingActionButton) findViewById(R.id.training_button);
         trainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

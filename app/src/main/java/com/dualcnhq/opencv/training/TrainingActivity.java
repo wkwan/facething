@@ -37,6 +37,7 @@ public class TrainingActivity extends AppCompatActivity {
                     intent.putExtra(NAME_TAG, nameEditText.getText().toString());
                     intent.putExtra(TWITTER_TAG, twitterEditText.getText().toString());
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT).show();
                 }
