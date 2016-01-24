@@ -253,54 +253,8 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //        Log.i("qqqqqq", String.format("create mainactivity %b", twitterFactory==null));
 
 
-        Button readTweetBtn = (Button) findViewById(R.id.readTweetBtn);
-        readTweetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!nameToTweet.isEmpty()) {
-                    String tweetID = "wkwan94";
-                    ConfigurationBuilder builder = new ConfigurationBuilder();
-                    builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
-                    builder.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
 
-                    SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
-
-                    String access_token = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "");
-                    String acces_token_secret = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, "");
-
-                    AccessToken accessToken = new AccessToken(access_token, acces_token_secret);
-
-                    Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
-
-
-                    Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-
-                    //First param of Paging() is the page number, second is the number per page (this is capped around 200 I think.
-                    Paging paging = new Paging(1, 2);
-
-                    try {
-                        List<Status> statuses = twitter.getUserTimeline(tweetID, paging);
-                        Log.i("TweeterLog", "Tweet log: " + statuses.size());
-
-                        for (int i = 0; i < statuses.size(); i++) {
-                            Status status = statuses.get(i);
-                            Log.i("TweeterLog", status.getText());
-                        }
-
-
-//                        User user = twitter.createFriendship("google");
-//                        Log.i("TweeterLog", user.getName());
-
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-            }
-        });
-
-        Button twitterButton = (Button) findViewById(R.id.twitter);
+        FloatingActionButton twitterButton = (FloatingActionButton) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!tweetID.isEmpty()) {
