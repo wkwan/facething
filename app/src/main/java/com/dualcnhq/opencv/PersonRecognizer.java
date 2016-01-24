@@ -40,7 +40,7 @@ public class PersonRecognizer {
 
 
     // Adding picture for the person.
-    public void add(Mat mat, String description) {
+    public void add(Mat mat, String description, String twitter) {
 
         // Transforming mat into bitmap & scaling
         Bitmap bmp = Bitmap.createBitmap(mat.width(), mat.height(), Bitmap.Config.ARGB_8888);
@@ -48,7 +48,7 @@ public class PersonRecognizer {
         bmp = Bitmap.createScaledBitmap(bmp, DEFAULT_WIDTH, DEFAULT_HEIGHT, false);
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(path + description + "-" + personNum + ".jpg", true);
+            FileOutputStream fileOutputStream = new FileOutputStream(path + description + "-" + twitter + "-" + personNum + ".jpg", true);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             fileOutputStream.close();
             this.personNum++;
@@ -91,15 +91,23 @@ public class PersonRecognizer {
 
             // Looking for the "personNum" from the file name
             int lastIndexOfDash = absolutePath.lastIndexOf("-");
+            int secondLastIndexOfDash = absolutePath.lastIndexOf("-", lastIndexOfDash-1);
             int lastIndexOfDot = absolutePath.lastIndexOf(".");
             int currentCount = Integer.parseInt(absolutePath.substring(lastIndexOfDash + 1, lastIndexOfDot));
             if (this.personNum < currentCount) {
                 this.personNum++;
             }
 
-            String description = absolutePath.substring(rootFileLength, lastIndexOfDash);
+            String description = absolutePath.substring(rootFileLength, secondLastIndexOfDash);
+            String twitter = absolutePath.substring(rootFileLength + description.length() + 1, lastIndexOfDash);
+            Log.i("qqq", "Description: " + description  + ", Tweeter: " + twitter + ", Absolute Path: " + absolutePath);
             if (profileManager.getProfileByName(description) == null) {
-                profileManager.addProfile(description, profileManager.getMaxId() + 1, "TestingText");
+                Log.i("qqq", "profile manager can't find anything");
+                profileManager.addProfile(description, profileManager.getMaxId() + 1, twitter);
+            }
+            else
+            {
+                Log.i("qqq", "profile manager found something");
             }
 
             int label = profileManager.getProfileByName(description).getId();

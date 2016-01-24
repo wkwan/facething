@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         Button twitterButton = (Button) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!nameToTweet.isEmpty()) {
+                if (!tweetID.isEmpty()) {
                     Log.i("qqqqq", "clicking the twitter button");
 
                     ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -317,10 +317,10 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
                     try {
                         Log.i("qqq", "try to update status " + tweetID);
-                        twitter4j.Status response = twitter.updateStatus(statusUpdate);
-//                    twitter.createFriendship("Los Colibris");
-//                  twitter.createFriendship("@torontoist");
-                        Log.i("qqq", "after update status " + response.getText());
+
+                        twitter.createFriendship(tweetID);
+//                        Log.i("qqq", "after update status " + response.getText());
+                        Toast.makeText(MainActivity.this, "Followed " + tweetID, Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
                         Log.i("qqq", e.getMessage());
@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             msg.obj = textTochange;
             mHandler.sendMessage(msg);
             if (countImages < MAXIMG) {
-                fr.add(m, text.getText().toString());
+                fr.add(m, text.getText().toString(), tweetID);
                 countImages++;
             }
 

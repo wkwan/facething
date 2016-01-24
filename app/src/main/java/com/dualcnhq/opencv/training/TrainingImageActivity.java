@@ -177,7 +177,7 @@ public class TrainingImageActivity extends AppCompatActivity {
     }
 
     private void saveImage() {
-        personRecognizer.add(mMat, name);
+        personRecognizer.add(mMat, name, twitter);
     }
 
     @Override

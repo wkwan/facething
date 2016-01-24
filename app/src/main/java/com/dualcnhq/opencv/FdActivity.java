@@ -478,7 +478,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
             msg.obj = textTochange;
             mHandler.sendMessage(msg);
             if (countImages < MAXIMG) {
-                fr.add(m, text.getText().toString());
+                fr.add(m, text.getText().toString(), "google");
                 countImages++;
             }
 
