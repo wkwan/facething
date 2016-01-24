@@ -44,11 +44,15 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:src="@drawable/contacts1"
+
                 android:id="@+id/twitter" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/getUserInfoButton"
                 android:padding="0dp"
+                android:src="@drawable/bird1"
+                android:scaleType="fitCenter"
                 android:layout_marginTop="10dp"
                 android:layout_above="@+id/twitter"
                 android:layout_alignRight="@+id/twitter"
@@ -64,6 +68,8 @@
                 android:id="@+id/training_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/teacher4"
+
                 />
 
         </RelativeLayout>

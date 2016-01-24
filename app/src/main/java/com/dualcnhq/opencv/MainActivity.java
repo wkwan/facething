@@ -284,7 +284,10 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                         Toast.makeText(MainActivity.this, "Followed " + tweetID, Toast.LENGTH_LONG).show();
 
                     } catch (Exception e) {
-                        Log.i("qqq", e.getMessage());
+                        if (!e.getMessage().isEmpty())
+                        {
+                            Log.i("qqq", e.getMessage());
+                        }
 
                     }
 
