@@ -46,9 +46,13 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
@@ -237,34 +241,58 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //        Log.i("qqqqqq", String.format("create mainactivity %b", twitterFactory==null));
 
 
+        Button readTweetBtn = (Button) findViewById(R.id.readTweetBtn);
+        readTweetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!nameToTweet.isEmpty()) {
+                    String tweetID = "wkwan94";
+                    ConfigurationBuilder builder = new ConfigurationBuilder();
+                    builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+                    builder.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
 
-        Button twitterButton = (Button)findViewById(R.id.twitter);
+                    SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
+
+                    String access_token = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "");
+                    String acces_token_secret = sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, "");
+
+                    AccessToken accessToken = new AccessToken(access_token, acces_token_secret);
+
+                    Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
+
+
+                    Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+                    //First param of Paging() is the page number, second is the number per page (this is capped around 200 I think.
+                    Paging paging = new Paging(1, 2);
+
+                    try {
+                        List<Status> statuses = twitter.getUserTimeline(tweetID, paging);
+                        Log.i("TweeterLog", "Tweet log: " + statuses.size());
+
+                        for (int i = 0; i < statuses.size(); i++) {
+                            Status status = statuses.get(i);
+                            Log.i("TweeterLog", status.getText());
+                        }
+
+
+//                        User user = twitter.createFriendship("google");
+//                        Log.i("TweeterLog", user.getName());
+
+                    } catch (TwitterException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+        });
+
+        Button twitterButton = (Button) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!nameToTweet.isEmpty())
-                {
+                if (!nameToTweet.isEmpty()) {
                     Log.i("qqqqq", "clicking the twitter button");
-
-//                ConfigurationBuilder cb = new ConfigurationBuilder();
-//
-//                SharedPreferences sharedPreferences = getSharedPreferences(TwitterMainActivity.PREF_NAME, 0);
-//                cb.setDebugEnabled(true)
-//                        .setOAuthConsumerKey(getString(R.string.twitter_consumer_key))
-//                        .setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret))
-//                        .setOAuthAccessToken(sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, ""))
-//                        .setOAuthAccessTokenSecret(sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
-//
-//                Log.i("qqq", getString(R.string.twitter_consumer_key) + " " + getString(R.string.twitter_consumer_secret) + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_TOKEN, "") + " " + sharedPreferences.getString(TwitterMainActivity.PREF_KEY_OAUTH_SECRET, ""));
-//
-//                TwitterFactory tf = new TwitterFactory(cb.build());
-//                Twitter twitter = tf.getInstance();
-//                try {
-//                    twitter.createFriendship("@torontoist");
-//
-//                } catch (Exception e) {
-//                    Log.i("qqq", e.getMessage());
-//
-//                }
 
                     ConfigurationBuilder builder = new ConfigurationBuilder();
                     builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
@@ -283,8 +311,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                     Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
 
-
-                    StatusUpdate statusUpdate = new StatusUpdate("I saw " + " " + nameToTweet + " on " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date())  + " !");
+                    StatusUpdate statusUpdate = new StatusUpdate("I saw " + " " + nameToTweet + " on " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()) + " !");
                     InputStream is = getResources().openRawResource(+R.mipmap.landscape);
 
 
@@ -299,7 +326,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                         Log.i("qqq", e.getMessage());
 
                     }
-
 
 
 //                StatusUpdate statusUpdate = new StatusUpdate(status);
@@ -337,15 +363,12 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //                        grabarOnclick();
 //                    }
                 } else {
-                    if (mLikely < 30)
-                    {
-                        Log.d("Main","Name: unknown");
+                    if (mLikely < 30) {
+                        Log.d("Main", "Name: unknown");
                         userInfo.setText("User: unknown");
-                    }
-                    else if (msg.obj != null && !msg.obj.toString().isEmpty())
-                    {
+                    } else if (msg.obj != null && !msg.obj.toString().isEmpty()) {
                         nameToTweet = msg.obj.toString();
-                        Log.d("Main","Name: " + msg.obj.toString());
+                        Log.d("Main", "Name: " + msg.obj.toString());
                         userInfo.setText("Name: " + msg.obj.toString());
                     }
 //                    textresult.setText(msg.obj.toString());
@@ -502,7 +525,6 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 //        }
 
 
-
         faceState = SEARCHING;
 
         boolean success = (new File(mPath)).mkdirs();
@@ -607,8 +629,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             }
 
         } else if ((faceState == SEARCHING)) {
-            if (facesArray.length > 0)
-            {
+            if (facesArray.length > 0) {
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -643,9 +664,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                 msg = new Message();
                 msg.obj = textTochange;
                 mHandler.sendMessage(msg);
-            }
-            else
-            {
+            } else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
