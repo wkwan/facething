@@ -208,7 +208,8 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public
+    void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
 
@@ -250,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
         userInfo = (TextView) findViewById(R.id.user_info);
 
-        FloatingActionButton twitterButton = (FloatingActionButton) findViewById(R.id.twitter);
+        /*FloatingActionButton twitterButton = (FloatingActionButton) findViewById(R.id.twitter);
         twitterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (tweetID != null) {
@@ -298,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
 
             }
 
-        });
+        });*/
 
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.faceView);
         mOpenCvCameraView.setCvCameraViewListener(this);

@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 
 public class WordAnalyzingManager {
 
@@ -30,22 +31,33 @@ public class WordAnalyzingManager {
 
 
             StringBuilder stringBuilder = new StringBuilder();
-            boolean isValid = false;
+
             String jsonResult;
             while ((jsonResult = bufferedReader.readLine()) != null) {
                 stringBuilder.append(jsonResult);
             }
 
-
             JSONObject obj = new JSONObject(stringBuilder.toString());
             JSONArray jsonArray = obj.getJSONArray("taxonomy");
             String[] strings = new String[jsonArray.length()];
             for (int i=0; i<jsonArray.length(); i++) {
+
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String score = jsonObject.getString("score");
-                String label = jsonObject.getString("label");
-//                String confident = jsonObject.getString("confident");
-                strings[i] = label + " - relevancy score: " + score;
+
+                String confidence = "";
+                try {
+                    confidence = jsonObject.getString("confident");
+                    //if no error is thrown, then we know that confidence : no
+                    strings[i] = "Possibly the following";
+                } catch(JSONException e){
+                    strings[i] = "Probably the following";
+                }
+
+                float score = Float.parseFloat(jsonObject.getString("score"));
+                DecimalFormat df = new DecimalFormat("#.##");
+
+                String label = jsonObject.getString("label").replace("/", ", ");
+                strings[i] += label + ", (relevancy score of " + df.format(score) + ")";
             }
 
             bufferedReader.close();
